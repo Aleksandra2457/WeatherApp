@@ -56,15 +56,63 @@
 		D3D298D5281F119800137E17 /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
-				D3D298D6281F119800137E17 /* AppDelegate.swift */,
-				D3D298D8281F119800137E17 /* SceneDelegate.swift */,
-				D3D298DA281F119800137E17 /* ViewController.swift */,
-				D3D298DC281F119800137E17 /* Main.storyboard */,
-				D3D298DF281F119B00137E17 /* Assets.xcassets */,
-				D3D298E1281F119B00137E17 /* LaunchScreen.storyboard */,
-				D3D298E4281F119B00137E17 /* Info.plist */,
+				D3D298EF281F11E800137E17 /* Services */,
+				D3D298EE281F11E300137E17 /* Models */,
+				D3D298EA281F11BD00137E17 /* App */,
+				D3D298EB281F11C300137E17 /* ViewControllers */,
+				D3D298EC281F11D500137E17 /* Storyboards */,
+				D3D298ED281F11DD00137E17 /* Resources */,
 			);
 			path = WeatherApp;
+			sourceTree = "<group>";
+		};
+		D3D298EA281F11BD00137E17 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				D3D298D6281F119800137E17 /* AppDelegate.swift */,
+				D3D298D8281F119800137E17 /* SceneDelegate.swift */,
+				D3D298E4281F119B00137E17 /* Info.plist */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		D3D298EB281F11C300137E17 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				D3D298DA281F119800137E17 /* ViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		D3D298EC281F11D500137E17 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				D3D298DC281F119800137E17 /* Main.storyboard */,
+				D3D298E1281F119B00137E17 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		D3D298ED281F11DD00137E17 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D3D298DF281F119B00137E17 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D3D298EE281F11E300137E17 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D3D298EF281F11E800137E17 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -289,10 +337,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = S975MC8VZ3;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = WeatherApp/Info.plist;
+				INFOPLIST_FILE = WeatherApp/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -304,7 +353,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -317,10 +366,11 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = S975MC8VZ3;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = WeatherApp/Info.plist;
+				INFOPLIST_FILE = WeatherApp/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -332,7 +382,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
