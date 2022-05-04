@@ -10,6 +10,8 @@ import UIKit
 class WeatherListCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
     var collectionView: UICollectionView!
+    
+    private let weatherImages = ["1", "2", "3", "4", "5", "6", "7", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +36,7 @@ class WeatherListCollectionViewController: UIViewController, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeatherCell", for: indexPath as IndexPath) as! WeatherCollectionViewCell
         cell.setupItem()
+        cell.setupImageWith(name: weatherImages.randomElement() ?? "1")
         return cell
     }
     
@@ -57,4 +60,5 @@ class WeatherListCollectionViewController: UIViewController, UICollectionViewDel
     }
 
 }
+
 

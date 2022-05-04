@@ -9,10 +9,12 @@ import UIKit
 
 class WeatherCollectionViewCell: UICollectionViewCell {
     
+    
+    
     // MARK: - Private Properties
     private var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .lightGray
+        imageView.contentMode = .scaleToFill
         return imageView
     }()
     
@@ -69,6 +71,11 @@ class WeatherCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: - Private Methods
+    
+    func setupImageWith(name: String) {
+        imageView.image = UIImage(named: name)
+    }
+    
     private func setupConstraints() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([

@@ -11,6 +11,7 @@ class WeatherDetailsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .cyan
     }
 
 }
