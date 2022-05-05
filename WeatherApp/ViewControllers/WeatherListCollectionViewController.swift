@@ -11,6 +11,14 @@ class WeatherListCollectionViewController: UIViewController, UICollectionViewDel
 
     var collectionView: UICollectionView!
     
+    var addedLocations: CurrentWeather! {
+        didSet {
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    }
+    
     private let weatherImages = ["1", "2", "3", "4", "5", "6", "7", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]
 
     override func viewDidLoad() {
@@ -27,6 +35,18 @@ class WeatherListCollectionViewController: UIViewController, UICollectionViewDel
         collectionView.register(WeatherCollectionViewCell.self, forCellWithReuseIdentifier: "WeatherCell")
 
         self.view.addSubview(collectionView)
+        
+        DispatchQueue.main.async {
+            NetworkManager.shared.fetchWeather { result in
+                switch result {
+                case .success(let current):
+                    self.addedLocations = current
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
+        
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -36,7 +56,11 @@ class WeatherListCollectionViewController: UIViewController, UICollectionViewDel
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeatherCell", for: indexPath as IndexPath) as! WeatherCollectionViewCell
         cell.setupItem()
-        cell.setupImageWith(name: weatherImages.randomElement() ?? "1")
+        if addedLocations != nil {
+            cell.setupUI(with: addedLocations)
+            cell.showElements()
+            cell.setupImageWith(name: weatherImages.randomElement() ?? "1")
+        }
         return cell
     }
     
@@ -53,12 +77,13 @@ class WeatherListCollectionViewController: UIViewController, UICollectionViewDel
         
         navigationItem.leftBarButtonItem = UIBarButtonItem()
         navigationItem.leftBarButtonItem?.image = UIImage(systemName: "line.3.horizontal")
-        navigationItem.rightBarButtonItem = UIBarButtonItem()
-        navigationItem.rightBarButtonItem?.image = UIImage(systemName: "plus")
-
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showAlert))
         navigationController?.navigationBar.tintColor = .gray
     }
 
 }
 
+extension WeatherListCollectionViewController {
+    
+}
 

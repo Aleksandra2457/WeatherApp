@@ -9,8 +9,6 @@ import UIKit
 
 class WeatherCollectionViewCell: UICollectionViewCell {
     
-    
-    
     // MARK: - Private Properties
     private var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -29,9 +27,8 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 70)
         label.adjustsFontSizeToFitWidth = true
-        label.textAlignment = .center
+        label.textAlignment = .right
         label.textColor = .white
-        label.text = "25"
         return label
     }()
     
@@ -52,7 +49,6 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .left
         label.textColor = .white
-        label.text = "Moscow\nRussia"
         return label
     }()
     
@@ -70,12 +66,22 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         setupConstraints()
     }
     
-    // MARK: - Private Methods
-    
     func setupImageWith(name: String) {
         imageView.image = UIImage(named: name)
     }
     
+    func setupUI(with weather: CurrentWeather) {
+        locationLabel.text = weather.zone
+        degreesLabel.text = String(weather.current.temperature)
+    }
+    
+    func showElements() {
+        deleteButton.isHidden = false
+        degreesSymbolLabel.isHidden = false
+    }
+    
+    // MARK: - Private Methods
+
     private func setupConstraints() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -93,28 +99,32 @@ class WeatherCollectionViewCell: UICollectionViewCell {
             deleteButton.heightAnchor.constraint(equalToConstant: 20.0)
         ])
         
+        deleteButton.isHidden = true
+        
         degreesLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             degreesLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -8),
-            degreesLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -8),
-            degreesLabel.heightAnchor.constraint(equalToConstant: frame.height * 0.4),
-            degreesLabel.widthAnchor.constraint(equalToConstant: frame.width * 0.23)
+            degreesLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -21),
+            degreesLabel.heightAnchor.constraint(equalToConstant: frame.height * 0.3),
+            degreesLabel.widthAnchor.constraint(equalToConstant: frame.width * 0.15)
         ])
         
         degreesSymbolLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            degreesSymbolLabel.topAnchor.constraint(equalTo: degreesLabel.topAnchor, constant: 2),
-            degreesSymbolLabel.trailingAnchor.constraint(equalTo: degreesLabel.trailingAnchor, constant: -2),
-            degreesSymbolLabel.heightAnchor.constraint(equalToConstant: 15),
+            degreesSymbolLabel.topAnchor.constraint(equalTo: degreesLabel.topAnchor, constant: 0),
+            degreesSymbolLabel.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -8),
+            degreesSymbolLabel.heightAnchor.constraint(equalTo: degreesLabel.heightAnchor, multiplier: 0.4),
             degreesSymbolLabel.widthAnchor.constraint(equalToConstant: 15)
         ])
+        
+        degreesSymbolLabel.isHidden = true
         
         locationLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             locationLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -8),
             locationLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: 8),
             locationLabel.trailingAnchor.constraint(equalTo: degreesLabel.leadingAnchor, constant: -5),
-            locationLabel.heightAnchor.constraint(equalToConstant: frame.height * 0.4)
+            locationLabel.heightAnchor.constraint(equalToConstant: frame.height * 0.3)
         ])
     }
     
