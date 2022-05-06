@@ -56,7 +56,7 @@ class WeatherListCollectionViewController: UIViewController, UICollectionViewDel
     }
     
     private func setupNavigationBar() {
-        title = "Weather"
+        title = "Погода"
         navigationController?.navigationBar.prefersLargeTitles = true
         
         let navBarAppearance = UINavigationBarAppearance()
@@ -90,10 +90,10 @@ class WeatherListCollectionViewController: UIViewController, UICollectionViewDel
 extension WeatherListCollectionViewController {
     
     @objc func showAlert() {
-        let alertController = UIAlertController.createAlert(withTitle: "Add new city", andMessage: "What city weather you are looking for?")
-        alertController.action { weather in
-            StorageManager.shared.addLocation(weather.zone)
-            self.addedLocations.append(weather.zone)
+        let alertController = UIAlertController.createAlert(withTitle: "Какой город Вы хотите найти?", andMessage: "Введите название для поиска и отображения")
+        alertController.action { cityName in
+            StorageManager.shared.addLocation(cityName)
+            self.addedLocations.append(cityName)
             DispatchQueue.main.async {
                 self.collectionView.insertItems(at: [IndexPath(item: self.addedLocations.endIndex - 1, section: 0)])
             }

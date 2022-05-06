@@ -15,21 +15,11 @@ extension UIAlertController {
     }
     
     // MARK: - Public Methods
-    func action(_ completion: @escaping (CurrentWeather) -> Void) {
+    func action(_ completion: @escaping (String) -> Void) {
         let searchAction = UIAlertAction(title: "Search", style: .default) { _ in
             guard let newCity = self.textFields?.first?.text else { return }
             guard !newCity.isEmpty else { return }
-            CoreLocationManager.shared.returnCoordinates(for: newCity) { latitude, longitude in
-                NetworkManager.shared.fetchWeather(latitude: latitude, longitude: longitude) { results in
-                    switch results {
-                    case .success(let weather):
-                        completion(weather)
-                    case .failure(let error):
-                        print(error.localizedDescription)
-                    }
-                }
-                
-            }
+            completion(newCity)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
         addAction(searchAction)

@@ -17,7 +17,7 @@ class CoreLocationManager {
     func returnCoordinates(for cityName: String, completion: @escaping (CLLocationDegrees, CLLocationDegrees) -> Void)  {
         let geoCoder = CLGeocoder()
         geoCoder.geocodeAddressString(cityName) { placemarks, error in
-            if let city = placemarks?.first {
+            if let city = placemarks?.last {
                 let latitude = city.location?.coordinate.latitude ?? 0.0
                 let longitude = city.location?.coordinate.longitude ?? 0.0
                 completion(latitude, longitude)

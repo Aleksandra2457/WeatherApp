@@ -18,7 +18,7 @@ class StorageManager {
     
     func createTemplateLocation() {
         if !userDefaults.bool(forKey: "TemplateDataWasCreated") {
-            let locations = ["Moscow"]
+            let locations = ["Москва"]
             userDefaults.setValue(locations, forKey: locationsKey)
         }
         userDefaults.set(true, forKey: "TemplateDataWasCreated")

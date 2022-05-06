@@ -30,22 +30,6 @@ class NetworkManager {
                 completion(.failure(error))
             }
         }.resume()
-    }
-    
-    func fetchWeather(latitude: Double, longitude: Double) {
-        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/onecall?lat=\(latitude)&lon=\(longitude)&units=metric&exclude=daily&appid=\(APIkey)") else { return }
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data else {
-                print(error?.localizedDescription ?? "No error")
-                return
-            }
-            do {
-                let current = try JSONDecoder().decode(CurrentWeather.self, from: data)
-            } catch {
-                print(error.localizedDescription)
-            }
-        }.resume()
-    }
-    
+    }    
     
 }
