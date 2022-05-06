@@ -28,6 +28,7 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         label.font = UIFont.boldSystemFont(ofSize: 70)
         label.adjustsFontSizeToFitWidth = true
         label.textAlignment = .right
+        label.text = "__"
         label.textColor = .white
         return label
     }()
@@ -70,9 +71,12 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         imageView.image = UIImage(named: name)
     }
     
-    func setupUI(with weather: CurrentWeather) {
-        locationLabel.text = weather.zone
+    func showTemperature(with weather: CurrentWeather) {
         degreesLabel.text = String(weather.current.temperature)
+    }
+    
+    func showLocation(_ cityName: String) {
+        locationLabel.text = cityName
     }
     
     func showElements() {

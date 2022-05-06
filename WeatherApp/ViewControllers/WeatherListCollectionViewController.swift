@@ -11,13 +11,7 @@ class WeatherListCollectionViewController: UIViewController, UICollectionViewDel
 
     var collectionView: UICollectionView!
     
-    var addedLocations: CurrentWeather! {
-        didSet {
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-            }
-        }
-    }
+    var addedLocations = [String]()
     
     private let weatherImages = ["1", "2", "3", "4", "5", "6", "7", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]
 
@@ -36,31 +30,28 @@ class WeatherListCollectionViewController: UIViewController, UICollectionViewDel
 
         self.view.addSubview(collectionView)
         
-        DispatchQueue.main.async {
-            NetworkManager.shared.fetchWeather { result in
-                switch result {
-                case .success(let current):
-                    self.addedLocations = current
-                case .failure(let error):
-                    print(error)
-                }
-            }
-        }
+        StorageManager.shared.createTemplateLocation()
+        addedLocations = StorageManager.shared.fetchLocations()
         
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return addedLocations.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "WeatherCell", for: indexPath as IndexPath) as! WeatherCollectionViewCell
+        let location = addedLocations[indexPath.row]
         cell.setupItem()
-        if addedLocations != nil {
-            cell.setupUI(with: addedLocations)
-            cell.showElements()
-            cell.setupImageWith(name: weatherImages.randomElement() ?? "1")
+        cell.showElements()
+        cell.showLocation(location)
+        cell.setupImageWith(name: self.weatherImages.randomElement() ?? "1")
+        fetchWeather(for: location) { weather in
+            DispatchQueue.main.async {
+                cell.showTemperature(with: weather)
+            }
         }
+        
         return cell
     }
     
@@ -80,10 +71,35 @@ class WeatherListCollectionViewController: UIViewController, UICollectionViewDel
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showAlert))
         navigationController?.navigationBar.tintColor = .gray
     }
+    
+    private func fetchWeather(for city: String, completion: @escaping (CurrentWeather)  -> Void) {
+        CoreLocationManager.shared.returnCoordinates(for: city) { latitude, longitude in
+            NetworkManager.shared.fetchWeather(latitude: latitude, longitude: longitude) { results in
+                switch results {
+                case .success(let weather):
+                    completion(weather)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
 
 }
 
 extension WeatherListCollectionViewController {
+    
+    @objc func showAlert() {
+        let alertController = UIAlertController.createAlert(withTitle: "Add new city", andMessage: "What city weather you are looking for?")
+        alertController.action { weather in
+            StorageManager.shared.addLocation(weather.zone)
+            self.addedLocations.append(weather.zone)
+            DispatchQueue.main.async {
+                self.collectionView.insertItems(at: [IndexPath(item: self.addedLocations.endIndex - 1, section: 0)])
+            }
+        }
+        present(alertController, animated: true)
+    }
     
 }
 
