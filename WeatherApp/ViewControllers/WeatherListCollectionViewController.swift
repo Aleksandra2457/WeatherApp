@@ -7,14 +7,38 @@
 
 import UIKit
 
-class WeatherListCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+@IBDesignable class WeatherListCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
+    // MARK: - Public Properties
     var collectionView: UICollectionView!
+    var addedLocations = [String]() {
+        didSet {
+            print(addedLocations)
+        }
+    }
     
-    var addedLocations = [String]()
-    
-    private let weatherImages = ["1", "2", "3", "4", "5", "6", "7", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"]
+    // MARK: - Private Properties
+    private let weatherImages = [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19"]
 
+    // MARK: - Life Cycles Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
@@ -24,7 +48,7 @@ class WeatherListCollectionViewController: UIViewController, UICollectionViewDel
         layout.itemSize = CGSize(width: view.frame.width - 32, height: view.frame.height * 0.14)
 
         collectionView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
-        collectionView.delegate   = self
+        collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(WeatherCollectionViewCell.self, forCellWithReuseIdentifier: "WeatherCell")
 
@@ -35,6 +59,7 @@ class WeatherListCollectionViewController: UIViewController, UICollectionViewDel
         
     }
 
+    // MARK: - Collection View Data Source
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return addedLocations.count
     }
@@ -51,10 +76,16 @@ class WeatherListCollectionViewController: UIViewController, UICollectionViewDel
                 cell.showTemperature(with: weather)
             }
         }
-        
+        cell.delegate = self
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let item = collectionView.indexPathsForSelectedItems else { return }
+        print("Item was tapped")
+    }
+    
+    // MARK: - Private Methods
     private func setupNavigationBar() {
         title = "Погода"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -89,6 +120,7 @@ class WeatherListCollectionViewController: UIViewController, UICollectionViewDel
 
 extension WeatherListCollectionViewController {
     
+    // MARK: - Create Alert
     @objc func showAlert() {
         let alertController = UIAlertController.createAlert(withTitle: "Какой город Вы хотите найти?", andMessage: "Введите название для поиска и отображения")
         alertController.action { cityName in
@@ -101,5 +133,16 @@ extension WeatherListCollectionViewController {
         present(alertController, animated: true)
     }
     
+}
+
+extension WeatherListCollectionViewController: WeatherCollectionViewCellDelegate {
+    func delete(weatherItem: WeatherCollectionViewCell) {
+        if let indexPath = collectionView.indexPath(for: weatherItem) {
+            print(indexPath)
+            let location = addedLocations.remove(at: indexPath.item)
+            StorageManager.shared.deleteLocation(location)
+            collectionView.deleteItems(at: [indexPath])
+        }
+    }
 }
 

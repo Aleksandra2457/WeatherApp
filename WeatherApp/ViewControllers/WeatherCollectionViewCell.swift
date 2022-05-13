@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol WeatherCollectionViewCellDelegate: AnyObject {
+    func delete(weatherItem: WeatherCollectionViewCell)
+}
+
 class WeatherCollectionViewCell: UICollectionViewCell {
+    
+    weak var delegate: WeatherCollectionViewCellDelegate!
     
     // MARK: - Private Properties
     private var imageView: UIImageView = {
@@ -59,10 +65,10 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         clipsToBounds = true
         
         addSubview(imageView)
-        imageView.addSubview(deleteButton)
-        imageView.addSubview(degreesLabel)
-        degreesLabel.addSubview(degreesSymbolLabel)
-        imageView.addSubview(locationLabel)
+        addSubview(deleteButton)
+        addSubview(degreesLabel)
+        addSubview(degreesSymbolLabel)
+        addSubview(locationLabel)
         
         setupConstraints()
     }
@@ -81,11 +87,11 @@ class WeatherCollectionViewCell: UICollectionViewCell {
     
     func showElements() {
         deleteButton.isHidden = false
+        deleteButton.addTarget(nil, action: #selector(deleteButtonTapped), for: .touchUpInside)
         degreesSymbolLabel.isHidden = false
     }
     
     // MARK: - Private Methods
-
     private func setupConstraints() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -130,6 +136,10 @@ class WeatherCollectionViewCell: UICollectionViewCell {
             locationLabel.trailingAnchor.constraint(equalTo: degreesLabel.leadingAnchor, constant: -5),
             locationLabel.heightAnchor.constraint(equalToConstant: frame.height * 0.3)
         ])
+    }
+    
+    @objc func deleteButtonTapped(sender: UIButton) {
+        delegate.delete(weatherItem: self)
     }
     
 }
